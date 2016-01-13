@@ -20,12 +20,27 @@ def label2onehot(label,batch_size):
         label_out[i,label[i]] = 1
     return label_out
 
-def input_data(i, batch_size):
-    data = unpickle('/data3/cifar10/cifar-10-batches-py/data_batch_1')
+def data_converge():
+    cifar10 = unpickle('/data3/cifar10/cifar-10-batches-py/data_batch_1')
+    data = cifar10['data']
+    label = np.array(cifar10['labels']).reshape((10000,1))
+    for i in range(2,6,1):
+        cifar10 = unpickle('/data3/cifar10/cifar-10-batches-py/data_batch_'+str(i))
+        data = np.append(data,cifar10['data'],axis=0)
+        label = np.append(label,np.array(cifar10['labels']).reshape((10000,1)),axis=0)
 
-    data_val = data['data'] # np.ndarray / dtype=unit8
-    label_val = data['labels'] # list
-    label_val = np.array(label_val).reshape((10000,1))
+    return data, label
+
+def input_data(i, batch_size):
+
+    #data = unpickle('/data3/cifar10/cifar-10-batches-py/data_batch_1')
+
+    #data_val = data['data'] # np.ndarray / dtype=unit8
+    #label_val = data['labels'] # list
+    #label_val = np.array(label_val).reshape((10000,1))
+
+    data_val, label_val = data_converge()
+
     #print data_val.shape
     #print label_val.shape
     #print type(label_val)
@@ -33,6 +48,7 @@ def input_data(i, batch_size):
                                    i=i,batch_size=batch_size)
 
     label_value = label2onehot(label=label, batch_size=batch_size)
+
     #label = np.array(label)
     #print data_value.shape
     #print label.shape
@@ -44,9 +60,6 @@ def input_data(i, batch_size):
      #   print label_value
     return data_value, label_value
 ###
-#a,b=input_data(1,15)
-#print a.shape
-#print type(b)
 
 #for i in range(0,10,1):
    # c = b[i]
