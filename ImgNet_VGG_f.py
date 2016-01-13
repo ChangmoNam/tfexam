@@ -26,12 +26,12 @@ def convert2tensor(arg):
     return arg
 
 def max_pooling(x):
-    return tf.nn.max_pool(x,ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
+    return tf.nn.max_pool(x,ksize=[1,2,2,1],strides=[1,2,2,1],padding='VALID')
 
 def conv2d(img,w,b):
     #img = tf.reshape(img, shape=[-1,32,32,3])
     return tf.nn.relu(tf.nn.bias_add\
-                          (tf.nn.conv2d(img,w,strides=[1,1,1,1],padding='SAME'),b))
+                          (tf.nn.conv2d(img,w,strides=[1,1,1,1],padding='VALID'),b))
 
 def conv_net(x,w,b,drop_out):
     x = tf.reshape(x, shape=[-1,IMG_SIZE,IMG_SIZE,3])
@@ -54,7 +54,7 @@ weigth_fc2 = tf.Variable(tf.random_normal([1000,n_classes]))
 
 weight = {
     'conv1': convert2tensor(mat['layers'][0,0]['weights'][0,0][0,0]),
-    'fc1': tf.Variable(tf.random_normal([16*16*64, 1000])),
+    'fc1': tf.Variable(tf.random_normal([11*11*64, 1000])),
     'fc2': tf.Variable(tf.random_normal([1000,n_classes]))
 }
 #print weight['fc1'].get_shape().as_list()[0]
