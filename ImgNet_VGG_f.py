@@ -3,8 +3,8 @@ import tensorflow as tf
 import Cifar_data
 import numpy as np
 
-batch_size = 3
-training_iters = 100
+batch_size = 100
+training_iters = 100000
 n_input = 3072
 #n_input = 1024
 n_classes = 10
